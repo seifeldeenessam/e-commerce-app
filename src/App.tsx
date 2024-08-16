@@ -1,3 +1,4 @@
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
 // Lazy Loading
@@ -27,13 +28,24 @@ const router = createBrowserRouter([
 				index: true,
 				path: '/',
 				lazy: async () => ({ Component: (await import('@/pages/home')).default })
+			},
+			{
+				index: true,
+				path: 'shop',
+				lazy: async () => ({ Component: (await import('@/pages/shop')).default })
 			}
 		]
 	}
 ]);
 
+const queryClient = new QueryClient();
+
 const App = () => {
-	return <RouterProvider router={router} />;
+	return (
+		<QueryClientProvider client={queryClient}>
+			<RouterProvider router={router} />
+		</QueryClientProvider>
+	);
 };
 
 export default App;
